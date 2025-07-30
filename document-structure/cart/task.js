@@ -41,7 +41,6 @@ class Product {
     }
 }
 
-
 class Cart {
     #cart;
     #products;
@@ -68,23 +67,13 @@ class Cart {
     }
 
     #addProductDiv(product) {
-        const cart_products = this.#cart.getElementsByClassName("cart__products")[0];
-
-        const cart_product = document.createElement("div");
-        cart_product.className = "cart__product";
-        cart_product.dataset.id = product.id
-
-        const cart_product_image = document.createElement("img");
-        cart_product_image.className = "cart__product-image";
-        cart_product_image.src = product.src;
-
-        const cart_product_count = document.createElement("div");
-        cart_product_count.className = "cart__product-count";
-        cart_product_count.innerText = 0;
-
-        cart_product.appendChild(cart_product_image);
-        cart_product.appendChild(cart_product_count);
-        cart_products.appendChild(cart_product);
+        const cartProducts = this.#cart.getElementsByClassName("cart__products")[0];
+        const addProduct = 
+            `<div class="cart__product" data-id="${product.id}">
+                <img class="cart__product-image" src="${product.src}">
+                <div class="cart__product-count">${0}</div>
+            </div>`
+        cartProducts.innerHTML += addProduct;
     }
 
     #addAmount(product) {
@@ -98,7 +87,6 @@ class Cart {
     }
 }
 
-
 const products = Array.from(document.getElementsByClassName("product"));
 const cart = document.getElementsByClassName("cart")[0];
 
@@ -107,20 +95,20 @@ products.forEach ((product) => {
     const dec = product.querySelector(".product__quantity-control.product__quantity-control_dec");
     const addBtn = product.querySelector(".product__add");
 
-    const prod_obj = new Product(product);
-    const cart_obj = new Cart(cart);
+    const prodObj = new Product(product);
+    const cartObj = new Cart(cart);
 
     inc.addEventListener("click", (e) => {
-        prod_obj.inc();
+        prodObj.inc();
 
     });
 
     dec.addEventListener("click", (e) => {
-        prod_obj.dec();
+        prodObj.dec();
 
     });
 
     addBtn.addEventListener("click", (e) => {
-        cart_obj.addProduct(prod_obj);
+        cartObj.addProduct(prodObj);
     });
 });
