@@ -1,21 +1,38 @@
-const tool_flips = Array.from(document.getElementsByClassName("has-tooltip"));
+class ToolTip {
+    constructor(hasToolTip) {
+        this.currentText = null;
+        this.currentTitle = null;
+        this.toolTipTag = document.createElement("div");
+        this.toolTipTag.className = "tooltip";
+        this.toolTipTag.innerText = "";
+        hasToolTip.insertAdjacentElement("afterend", this.toolTipTag);
+        this.toolTipTag.style.position = "absolute";
+    }
 
-tool_flips.forEach((tool_flip) => {
-    tool_flip.addEventListener("click", (e) => {
-        e.preventDefault();
-        let tip = e.target.parentElement.querySelector(".tooltip");
-        console.log("tip:", tip)
-        if (!tip) {
-            console.log("!tip", tip)
-            tip = document.createElement("div");
-            tip.className = "tooltip"
-            tip.innerText = e.target.title
-            e.target.insertAdjacentElement("afterend", tip)
+    processClick(event) {
+        const hasToolTip = event.target;
+        const title = hasToolTip.title;
+        const text = hasToolTip.innerText;
+        
+        if (title === this.currentTitle && text === this.currentText) {
+            this.toolTipTag.classList.toggle("tooltip_active");
+        } else {
+            this.toolTipTag.classList.add("tooltip_active");
+            this.currentTitle = title;
+            this.currentText = text;
+            this.toolTipTag.innerText = title;
+            this.toolTipTag.style.left = event.pageX + "px";
+            this.toolTipTag.style.top = event.pageY + "px";
         }
-        tip.classList.toggle("tooltip_active");
-        tip.innerText = e.target.getAttribute("title");
-        tip.style.position = "absolute";
-        tip.style.left = e.pageX + "px";
-        tip.style.top = e.pageY + "px";
+    }
+}
+
+const hasToolTips = Array.from(document.getElementsByClassName("has-tooltip"));
+const toolTip = new ToolTip(hasToolTips[0]);
+
+hasToolTips.forEach((hasToolTip) => {
+    hasToolTip.addEventListener("click", (e) => {
+        e.preventDefault();
+        toolTip.processClick(e)
     });
 });
