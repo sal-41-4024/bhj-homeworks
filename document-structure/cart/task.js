@@ -72,7 +72,7 @@ class Cart {
             `<div class="cart__product" data-id="${product.id}">
                 <img class="cart__product-image" src="${product.src}">
                 <div class="cart__product-count">${0}</div>
-            </div>`
+             </div>`;
         cartProducts.innerHTML += addProduct;
     }
 
@@ -112,3 +112,4 @@ products.forEach ((product) => {
         cartObj.addProduct(prodObj);
     });
 });
+
