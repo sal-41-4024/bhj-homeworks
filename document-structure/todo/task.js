@@ -4,28 +4,23 @@ const taskList = document.getElementById("tasks__list");
 const taskForm = document.getElementById("tasks__form");
 
 function addTask(e) {
-    const task = document.createElement("div");
-    task.className = "task";
+    const task = 
+        `<div class="task">
+            <div class="task__title">${input.value}</div>
+            <a href ="#" class="task__remove">&times;</a>
+         </div>`;
+    taskList.insertAdjacentHTML("afterbegin", task);
 
-    const taskTitle = document.createElement("div");
-    taskTitle.className = "task__title";
-    taskTitle.innerText = input.value;
-
-    const taskRemove = document.createElement("a");
-    taskRemove.className = "task__remove";
-    taskRemove.innerHTML = "&times;";
-
-    task.appendChild(taskTitle);
-    task.appendChild(taskRemove);
-    taskList.appendChild(task);
-
+    const taskRemove = taskList.querySelector(".task__remove");
     taskRemove.addEventListener("click", (e) => {
         e.target.closest(".task").remove()
     });
 }
 
 btn.addEventListener("click", (e) => {
+    e.preventDefault();
     if (input.value.trim()) {
         addTask(e);
     }
+    input.value = '';
 });
